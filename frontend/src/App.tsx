@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+// 注意：删除了 ReactDOM 的引入，因为这里不需要直接渲染
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
@@ -11,6 +11,7 @@ import { SharePage } from './pages/SharePage'
 import { Navbar } from './components/Navbar'
 import './index.css'
 
+// 保持这两个辅助组件不变
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth()
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />
@@ -34,8 +35,9 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   )
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+// 关键修改：定义并导出 App 组件，而不是直接 render
+export function App() {
+  return (
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
@@ -76,5 +78,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>
-  </React.StrictMode>,
-)
+  )
+}
